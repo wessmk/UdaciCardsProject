@@ -1,10 +1,9 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { white, lightPurp } from "../utils/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-export default class Deck extends Component {
-    render(){
-        const {deck, onPress} = this.props
+export default function Deck(props) {
+        const {deck, onPress} = props
         const deckTitle = deck.title
         return(
             <TouchableOpacity style={styles.container}
@@ -15,7 +14,6 @@ export default class Deck extends Component {
                 <Text style={styles.deckText}>{deck.questions.length > 1 ? `${deck.questions.length} cards` : `${deck.questions.length} card`}</Text>
             </TouchableOpacity>
         )
-    }
     
 }
 

@@ -1,26 +1,39 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import { connect } from "react-redux";
-import { lightPurp, white } from "../utils/colors";
+import { lightPurp, white, darkRed } from "../utils/colors";
 
 class SingleDeckPage extends Component{
+    state = {
+        showNoQuestionError: false
+    }
     setTitle = (deckTitle) => {
         if (!deckTitle) return;
         this.props.navigation.setOptions({
-            title: `Deck: ${deckTitle}`
+            title: `Deck: ${deckTitle}`,
         });
         
     };
     addCard = () =>{
-        const {title} = this.props.deck
-        this.props.navigation.navigate('AddCard', {deckTitle: title})
+        const {id} = this.props
+        this.props.navigation.navigate('AddCard', {id: id})
+        this.setState(() => ({
+            showNoQuestionError: false
+        }))
     }
     startQuiz= () =>{
-        this.props.navigation.navigate('Quiz', {questionLength: this.props.deck.questions.length, questionCounter: 1, correctAnswersCounter: 0, deck: this.props.deck})
+        if(this.props.deck.questions.length === 0){
+            this.setState(() => ({
+                showNoQuestionError: true
+            }))
+        }
+        else{
+            this.props.navigation.navigate('Quiz', {questionLength: this.props.deck.questions.length, questionCounter: 1, correctAnswersCounter: 0, deck: this.props.deck})
+        }
     }
    
     render(){
-        
+        const {showNoQuestionError} = this.state
         const {title, questions} = this.props.deck
         this.setTitle(title);
         return(
@@ -43,6 +56,13 @@ class SingleDeckPage extends Component{
                         <Text style={[styles.submitBtnText, {color: white}]}>Start Quiz</Text>
                     </TouchableOpacity>
                 </View>
+                {
+                    showNoQuestionError && 
+                    (<View>
+                        <Text style={styles.error}>No Card in this Deck!!!</Text>
+                    </View>
+                    )
+                }
                 
             </View>
         )
@@ -94,19 +114,22 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         width: 300
+    },
+    error:{
+        fontSize: 30,
+        color: darkRed
     }
+    
 })
 
 
 
 function mapStateToProps(state, {route}) {
-    const {deckTitle } = route.params
+    const {id } = route.params
     return {
-        deck: state[deckTitle]
+        deck: state[id],
+        id
     }
 }
-
-
-
 
 export default connect(mapStateToProps)(SingleDeckPage)

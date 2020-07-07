@@ -8,30 +8,38 @@ import { white, lightPurp } from "../utils/colors";
 
 class AddDeck extends Component {
     state ={
-        input: ''
+        input: '',
+        disabled: true
     }
     handleTextChange = (title) => { 
         this.setState(() => ({
-            title
+            title,
+            disabled: title !== '' ? false : true
         }))
     }
     submit = () =>{
         const {title} = this.state
-        saveDeckTitle(title)
+        const {decks} = this.props
+        
+        let id = Object.keys(decks).reduce((a, b) => decks[a] > decks[b] ? a : b);
+        id = parseInt(id)+1
+        saveDeckTitle(id)
+
         this.props.dispatch(addDeck({
-            [title]: formatNewDeck(title)
+            [id]: formatNewDeck(title)
         }))
-        this.toDeck(title);
+        this.toDeck(id);
         this.setState(() => ({
-            title: ''
+            title: '', 
+            disabled: true
         }))
     }
-    toDeck = (deckTitle) => {
+    toDeck = (id) => {
 
-        this.props.navigation.navigate('SingleDeckPage', {deckTitle})
+        this.props.navigation.navigate('SingleDeckPage', {id})
     }
     render(){
-        const {title} = this.state
+        const {title, disabled} = this.state
         return(
             <KeyboardAvoidingView style={styles.container}>
                 <View>
@@ -45,6 +53,7 @@ class AddDeck extends Component {
                 <TouchableOpacity
                     style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
                     onPress={this.submit}
+                    disabled={disabled}
                 >
                     <Text style={Platform.OS === 'ios' ? styles.iosSubmitBtnText : styles.androidSubmitBtnText}>SUBMIT</Text>
                 </TouchableOpacity>
@@ -52,7 +61,13 @@ class AddDeck extends Component {
         )
     }
 }
-export default connect()(AddDeck)
+function mapStateToProps(state, {route}) {
+    return {
+        decks: state,
+    }
+}
+
+export default connect(mapStateToProps)(AddDeck)
 
 const styles = StyleSheet.create({
     container: {

@@ -10,8 +10,8 @@ class Decks extends Component{
         getDecks()
             .then((decks) => dispatch(receiveDecks(decks)))
     }
-    navigateToDeckPage = (deckTitle) => {
-        this.props.navigation.navigate('SingleDeckPage', {deckTitle: deckTitle})
+    navigateToDeckPage = (id) => {
+        this.props.navigation.navigate('SingleDeckPage', {id: id})
     }
     render(){
         const {decks} = this.props
@@ -20,7 +20,7 @@ class Decks extends Component{
                
                 {
                     Object.keys(decks).map(deck => {
-                        return <Deck deck={decks[deck]} key={deck} onPress={this.navigateToDeckPage}  />
+                        return <Deck deck={decks[deck]} key={deck} onPress={() => this.navigateToDeckPage(deck)}  />
                     })
                 }
                 

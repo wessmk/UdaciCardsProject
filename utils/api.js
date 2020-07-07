@@ -35,7 +35,7 @@ export function addCardToDeck(q, title) {
 
 
 const dummyData = {
-  React: {
+  1: {
     title: 'React',
     questions: [
       {
@@ -48,7 +48,7 @@ const dummyData = {
       }
     ]
   },
-  JavaScript: {
+  2: {
     title: 'JavaScript',
     questions: [
       {

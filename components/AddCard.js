@@ -9,31 +9,34 @@ class AddCard extends Component {
     state = {
         question: '',
         answer: '',
+        disabled: true
     }
     submitCard= () => {
-        const {navigation, dispatch, deck} = this.props
+        const {navigation, dispatch, deck, id} = this.props
         const {question, answer} = this.state
         const fullQuestion = {question, answer}
-        dispatch(addCard(fullQuestion, deck.title))
-        addCardToDeck(fullQuestion, deck.title)
+        dispatch(addCard(fullQuestion, id))
+        addCardToDeck(fullQuestion, id)
         navigation.dispatch(
             CommonActions.goBack({
                 key: 'AddCard',
             }))
     }
     handleQuestionTextChange = (question) => {
-        this.setState(() => ({
-            question
+        this.setState(({answer}) => ({
+            question, 
+            disabled: (question !== '' && answer !== '') ? false : true
         }))
     }
     handleAnswerTextChange = (answer) => {
-        this.setState(() => ({
-            answer
+        this.setState(({question}) => ({
+            answer,
+            disabled: (question !== '' && answer !== '') ? false : true
         }))
     }
     render(){
         const {title, questions} = this.props.deck
-        const {question, answer} = this.state
+        const {question, answer, disabled} = this.state
         return(
             <KeyboardAvoidingView style={styles.container}>
                 <View style={{alignItems: 'stretch'}}>
@@ -53,6 +56,7 @@ class AddCard extends Component {
                     <TouchableOpacity
                         style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
                         onPress={this.submitCard}
+                        disabled={disabled}
                     >
                         <Text style={Platform.OS === 'ios' ? styles.iosSubmitBtnText : styles.androidSubmitBtnText}>SUBMIT</Text>
                     </TouchableOpacity>
@@ -120,9 +124,10 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state, {route}) {
-    const {deckTitle } = route.params
+    const {id } = route.params
     return {
-        deck: state[deckTitle]
+        deck: state[id], 
+        id
     }
 }
 

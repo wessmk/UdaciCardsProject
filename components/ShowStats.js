@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { white, lightPurp} from "../utils/colors";
 import { clearLocalNotification, setLocalNotification } from "../utils/helpers";
+import Button from './Button'
+
 class ShowStats extends Component {
     handleRestartQuiz = () => {
         const { questionLength, deck} = this.props
@@ -30,18 +32,12 @@ class ShowStats extends Component {
                     <Text style={styles.text}>{correctAnswersCounter} Correct Answers Out of {questionLength} ({Math.round((correctAnswersCounter/ questionLength) *100)} %) </Text>
 
                  <View>
-                    <TouchableOpacity 
-                        style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
-                        onPress={this.handleRestartQuiz}
-                    >
-                        <Text style={Platform.OS === 'ios' ? styles.iosBtnText : styles.androidBtnText}>Restart Quiz</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
-                        onPress={this.handleBackToDeck}
-                    >
-                        <Text style={Platform.OS === 'ios' ? styles.iosBtnText : styles.androidBtnText}>Back to Deck</Text>
-                    </TouchableOpacity>
+                    <Button  onPress={this.handleRestartQuiz}>
+                       Restart Quiz
+                    </Button>
+                    <Button  onPress={this.handleBackToDeck}>
+                       Back to Deck
+                    </Button>
                 </View>
             </View>
         )
@@ -62,45 +58,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 26,
         textAlign: 'center'
-    },
-    iosSubmitBtn:{
-        backgroundColor: white,
-        padding: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
-        height: 45,
-        borderRadius: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 300,
-        borderColor: lightPurp,
-        borderWidth: 1,
-        marginTop: 20,
-    },
-    androidSubmitBtn: {
-        backgroundColor: lightPurp,
-        padding: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
-        height: 45,
-        borderRadius: 7,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop:20,
-        width: 300,
-        alignSelf: 'center'
-    },
-    androidBtnText: {
-        color: white,
-        fontWeight: '400',
-        textAlign: 'center',
-        fontSize: 22,
-    },
-    iosBtnText: {
-        color: lightPurp,
-        fontWeight: '400',
-        textAlign: 'center',
-        fontSize: 22,
     },
 })
 

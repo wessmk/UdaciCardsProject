@@ -15,9 +15,9 @@ function decks(state = {}, action) {
 
             return{
                 ...state,
-                [action.deckTitle]: {
-                    ...state[action.deckTitle],
-                    questions: state[action.deckTitle].questions.concat([action.question])
+                [action.id]: {
+                    ...state[action.id],
+                    questions: state[action.id].questions.concat([action.question])
                 }
             }
             default:
