@@ -1,0 +1,12 @@
+{
+  "name": "UdaciCardsProject",
+  "displayName": "UdaciCardsProject",
+  "expo": {
+    "name": "UdaciCardsProject",
+    "slug": "UdaciCardsProject",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
