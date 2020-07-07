@@ -23,7 +23,7 @@ class AddDeck extends Component {
         
         let id = Object.keys(decks).reduce((a, b) => decks[a] > decks[b] ? a : b);
         id = parseInt(id)+1
-        saveDeckTitle(id)
+        saveDeckTitle(id, title)
 
         this.props.dispatch(addDeck({
             [id]: formatNewDeck(title)
