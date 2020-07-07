@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacity} from 'react-native'
-import { saveDeckTitle } from "../utils/api"
+import { saveDeck } from "../utils/api"
 import { formatNewDeck } from "../utils/helpers";
 import {connect} from 'react-redux'
 import { addDeck } from "../actions";
@@ -23,7 +23,7 @@ class AddDeck extends Component {
         
         let id = Object.keys(decks).reduce((a, b) => decks[a] > decks[b] ? a : b);
         id = parseInt(id)+1
-        saveDeckTitle(id, title)
+        saveDeck(id, title)
 
         this.props.dispatch(addDeck({
             [id]: formatNewDeck(title)
