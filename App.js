@@ -18,7 +18,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native'
 import { FontAwesome,  MaterialCommunityIcons } from '@expo/vector-icons'
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { setLocalNotification } from "./utils/helpers";
 
 
 const store = createStore(reducer, middleware)
@@ -143,9 +143,7 @@ const MainNavigator = () => (
 )
 export default class App extends Component {
     componentDidMount(){
-      /*getDecks()
-        .then(d => console.log('decks    ',d))*/
-      //saveDeckTitle('mk 3')
+      setLocalNotification()
     }
     render(){
         return (

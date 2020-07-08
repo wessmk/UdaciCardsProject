@@ -23,7 +23,7 @@ export function clearLocalNotification() {
 
 
 export function setLocalNotification () {
-    console.log('Notification Setted')
+  console.log('Notification Setted')
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {
@@ -32,6 +32,7 @@ export function setLocalNotification () {
         Notifications.cancelAllScheduledNotificationsAsync()
 
         let trigger = new Date()
+        trigger.setDate(trigger.getDate() + 1);
         trigger.setHours(20)
         trigger.setMinutes(0)
 
@@ -40,7 +41,7 @@ export function setLocalNotification () {
                 title: 'Answer your Decks!',
                 body: "👋 don't forget to Answer your Decks for today!",
             },
-                trigger,
+            trigger,
       })
         AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
       }
